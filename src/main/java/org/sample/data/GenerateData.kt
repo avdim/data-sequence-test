@@ -28,9 +28,12 @@ val secondNames = listOf(
     "Колмагоров",
 )
 
+val RUSSIA = "Russia"
+val USA = "USA"
+
 val countries = listOf(
-    "Russia",
-    "USA",
+    RUSSIA,
+    USA,
     "Spain",
     "Italy",
     "France"
