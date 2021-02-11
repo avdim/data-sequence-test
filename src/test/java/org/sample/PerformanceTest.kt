@@ -1,16 +1,9 @@
 package org.sample
 
-import jdk.nashorn.internal.ir.debug.JSONWriter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
-import org.sample.data.Person
 import org.sample.data.RUSSIA
 import org.sample.data.generateRandomData
-import java.util.*
-import kotlin.test.assertEquals
+import org.sample.data.toJsonStr
 
 class PerformanceTest() {
 
@@ -20,7 +13,8 @@ class PerformanceTest() {
 
     @Test
     fun dataSize() {
-        val bytes = generateRandomData(DATA_SIZE).toString().length
+        val jsonStr = generateRandomData(DATA_SIZE).toJsonStr()
+        val bytes = jsonStr.length
         val MB = bytes / 1E6
         println("data size: $MB MB")
     }
@@ -58,37 +52,4 @@ class PerformanceTest() {
         }
     }
 
-    @Test
-    fun testCoroutine() = runBlocking {
-
-        val seq = generateRandomData(DATA_SIZE).asSequence()
-
-        val result = calcAverageNanoDelay {
-            seq
-                .asFlow()
-                .filter { it.country == RUSSIA }
-                .filter { it.firstName.startsWith("Д") }
-                .flowOn(Dispatchers.Default)
-                .toList()
-                .sortedBy { it.weight }
-                .take(1000)
-
-        }
-
-        result.data.forEach {
-            println(it)
-        }
-
-        Unit
-    }
-
-}
-
-fun hardComparsion(a: Person, b: Person): Int {
-    Thread.sleep(1)
-    if (a.age != b.age) {
-        return a.age.compareTo(b.age)
-    } else {
-        return a.weight.compareTo(b.weight)
-    }
 }

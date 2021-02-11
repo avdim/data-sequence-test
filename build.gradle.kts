@@ -1,6 +1,7 @@
 plugins {
   java//delete?
   kotlin("jvm") version "1.4.30"
+  kotlin("plugin.serialization") version "1.4.30"
   application // use at dist.sh
 }
 
@@ -40,6 +41,7 @@ dependencies {
   implementation("io.ktor:ktor-client-core:$KTOR_VERSION")
   implementation("io.ktor:ktor-client-apache:$KTOR_VERSION")
   implementation("io.ktor:ktor-html-builder:$KTOR_VERSION")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION")
   testImplementation("org.jetbrains.kotlin:kotlin-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
