@@ -13,7 +13,7 @@ class PerformanceTest() {
 
     @Test
     fun dataSize() {
-        val jsonStr = generateRandomData(DATA_SIZE).toJsonStr()
+        val jsonStr: String = generateRandomData(DATA_SIZE).toJsonStr()
         val bytes = jsonStr.length
         val MB = bytes / 1E6
         println("data size: $MB MB")
@@ -21,14 +21,19 @@ class PerformanceTest() {
 
     @Test
     fun listPerformance() {
-        val sequence = generateRandomData(DATA_SIZE)
+        val list = generateRandomData(DATA_SIZE)
 
         val result = calcAverageNanoDelay {
-            sequence
+            list
+                .filter{true}
+                .filter{true}
+                .filter{true}
+                .filter { it.country == RUSSIA }
+                .filter { it.firstName.startsWith("Д") }
                 .sortedBy { it.weight }
                 .take(1000)
         }
-
+//   N * log(N)
         result.data.forEach {
             println(it)
         }
@@ -40,9 +45,14 @@ class PerformanceTest() {
 
         val result = calcAverageNanoDelay {
             sequence
+                .filter { true } // N
+                .filter { true } // ( N  *  )
+                .filter { true } //
+                .filter { true }
+                .filter { it.age > 40 }
                 .filter { it.country == RUSSIA }
                 .filter { it.firstName.startsWith("Д") }
-                .sortedBy { it.weight }// order
+                .sortedBy { it.weight }// order  // N log N
                 .take(1000)
                 .toList()
         }
@@ -53,3 +63,9 @@ class PerformanceTest() {
     }
 
 }
+
+val mapOfOffers = mapOf<Int, Offer>() // N insert ( log N)
+
+data class Offer(val id:String, val tripId:Int)
+
+data class Trip(val id :String, val carrier:Int)
