@@ -6,4 +6,6 @@ data class Person(
     val age: Int,
     val country: String,
     val weight:Float
-)
+) {
+    override fun toString(): String = "$firstName $secondName, $age y.o. from $country, w: $weight"
+}

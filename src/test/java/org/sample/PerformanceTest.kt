@@ -38,9 +38,9 @@ class PerformanceTest() {
 
     val result = calcAverageNanoDelay {
       sequence
-        .sortedBy { it.weight }
         .filter { it.country == RUSSIA }
         .filter { it.firstName.startsWith("Д") }
+        .sortedBy { it.weight }// order
         .take(1000)
         .toList()
     }
