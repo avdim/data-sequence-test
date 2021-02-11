@@ -13,72 +13,72 @@ import kotlin.test.assertEquals
 
 class PerformanceTest() {
 
-  companion object {
-    val DATA_SIZE = 100_000
-  }
-
-  @Test
-  fun perfList() {
-    val sequence = generateRandomData(DATA_SIZE)
-
-    val result = calcAverageNanoDelay {
-      sequence
-        .sortedBy { it.weight }
-        .take(1000)
+    companion object {
+        val DATA_SIZE = 100_000
     }
 
-    result.data.forEach {
-      println(it)
-    }
-  }
+    @Test
+    fun perfList() {
+        val sequence = generateRandomData(DATA_SIZE)
 
-  @Test
-  fun perfSequence() {
-    val sequence = generateRandomData(DATA_SIZE).asSequence()
+        val result = calcAverageNanoDelay {
+            sequence
+                .sortedBy { it.weight }
+                .take(1000)
+        }
 
-    val result = calcAverageNanoDelay {
-      sequence
-        .filter { it.country == RUSSIA }
-        .filter { it.firstName.startsWith("Д") }
-        .sortedBy { it.weight }// order
-        .take(1000)
-        .toList()
+        result.data.forEach {
+            println(it)
+        }
     }
 
-    result.data.forEach {
-      println(it)
-    }
-  }
+    @Test
+    fun perfSequence() {
+        val sequence = generateRandomData(DATA_SIZE).asSequence()
 
-  @Test
-  fun testCoroutine() = runBlocking {
+        val result = calcAverageNanoDelay {
+            sequence
+                .filter { it.country == RUSSIA }
+                .filter { it.firstName.startsWith("Д") }
+                .sortedBy { it.weight }// order
+                .take(1000)
+                .toList()
+        }
 
-    val seq = generateRandomData(DATA_SIZE).asSequence()
-
-    val result = calcAverageNanoDelay {
-        seq
-        .asFlow()
-        .filter { it.country == RUSSIA }
-        .filter { it.firstName.startsWith("Д") }
-        .flowOn(Dispatchers.Default)
-        .toList()
-        .sortedBy { it.weight }
-        .take(1000)
-
+        result.data.forEach {
+            println(it)
+        }
     }
 
-    result.data.forEach {
-      println(it)
-    }
+    @Test
+    fun testCoroutine() = runBlocking {
 
-    Unit
-  }
+        val seq = generateRandomData(DATA_SIZE).asSequence()
+
+        val result = calcAverageNanoDelay {
+            seq
+                .asFlow()
+                .filter { it.country == RUSSIA }
+                .filter { it.firstName.startsWith("Д") }
+                .flowOn(Dispatchers.Default)
+                .toList()
+                .sortedBy { it.weight }
+                .take(1000)
+
+        }
+
+        result.data.forEach {
+            println(it)
+        }
+
+        Unit
+    }
 
 }
 
-fun hardComparsion(a: Person, b:Person):Int {
+fun hardComparsion(a: Person, b: Person): Int {
     Thread.sleep(1)
-    if(a.age != b.age) {
+    if (a.age != b.age) {
         return a.age.compareTo(b.age)
     } else {
         return a.weight.compareTo(b.weight)
