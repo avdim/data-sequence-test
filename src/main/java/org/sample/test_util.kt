@@ -5,7 +5,7 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 @OptIn(ExperimentalContracts::class)
-public inline fun calcAverageNanoDelay(count:Int, block: () -> Unit): Long {
+public inline fun calcAverageNanoDelay(name:String, count:Int, block: () -> Unit): Long {
     contract {
         callsInPlace(block, InvocationKind.AT_LEAST_ONCE)
     }
@@ -13,6 +13,9 @@ public inline fun calcAverageNanoDelay(count:Int, block: () -> Unit): Long {
     repeat(count) {
         block()
     }
-    return (System.nanoTime() - start) / count
+    val resultNanos = (System.nanoTime() - start) / count
+    println("---------------------------")
+    println("$name, ms: ${resultNanos / 1E6}")
+    println("---------------------------")
+    return resultNanos
 }
-
