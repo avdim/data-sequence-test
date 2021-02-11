@@ -1,5 +1,6 @@
 package org.sample
 
+import jdk.nashorn.internal.ir.debug.JSONWriter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -15,6 +16,13 @@ class PerformanceTest() {
 
     companion object {
         val DATA_SIZE = 100_000
+    }
+
+    @Test
+    fun dataSize() {
+        val bytes = generateRandomData(DATA_SIZE).toString().length
+        val MB = bytes / 1E6
+        println("data size: $MB MB")
     }
 
     @Test
