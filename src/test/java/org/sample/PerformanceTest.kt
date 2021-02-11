@@ -20,7 +20,7 @@ class PerformanceTest() {
     }
 
     @Test
-    fun perfList() {
+    fun listPerformance() {
         val sequence = generateRandomData(DATA_SIZE)
 
         val result = calcAverageNanoDelay {
@@ -35,7 +35,7 @@ class PerformanceTest() {
     }
 
     @Test
-    fun perfSequence() {
+    fun sequencePerformance() {
         val sequence = generateRandomData(DATA_SIZE).asSequence()
 
         val result = calcAverageNanoDelay {
